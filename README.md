@@ -125,5 +125,8 @@
 
 ## Setup
 [to the table of contents](README.md#table-of-contents)
-
+1. Скачайте репоизиторий при помощи команды `git clone -b main https://github.com/Ilya-Sheverov/task-planner-springmvc.git`
+2. Добавить тестову и продувую БД используя скрипты _pgsql-db-creation-script.sql_, _pgsql-tables-creation-script.sql_.
+3. Необъходимо собрать **.war** архив. Для этого зайдите в корень проекта и запустить `mvn package`. 
+4. Добавте полученный архив в папку webapps вашего TomCat.
 
