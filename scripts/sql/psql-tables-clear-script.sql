@@ -1,0 +1,3 @@
+TRUNCATE persons CASCADE;
+
+TRUNCATE tasks CASCADE;
