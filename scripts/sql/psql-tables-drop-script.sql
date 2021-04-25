@@ -1,9 +1,9 @@
-DROP TABLE if exists assignee_groups CASCADE;
+DROP TABLE IF EXISTS assignee_groups CASCADE;
 
-DROP TABLE if exists statuses CASCADE;
+DROP TABLE IF EXISTS statuses CASCADE;
 
-DROP TABLE if exists statuses_localized CASCADE;
+DROP TABLE IF EXISTS statuses_localized CASCADE;
 
-DROP TABLE if exists persons CASCADE;
+DROP TABLE IF EXISTS persons CASCADE;
 
-DROP TABLE if exists tasks CASCADE;
+DROP TABLE IF EXISTS tasks CASCADE;
