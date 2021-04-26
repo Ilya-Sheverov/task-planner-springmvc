@@ -141,6 +141,8 @@
 4. Maven 3 или выше;
 5. Git.
 
+
+
 1. Скачайте репозиторий при помощи команды `git clone -b onePeronPerTask https://github.com/Ilya-Sheverov/task-planner-springmvc.git`. После чего у вас появится папка *task-planner-springmvc*.
 2. После этого, Вам необходимо создать базу данных. Для этого используйте скрипт в директории [scripts](scripts/sql)  *task-planner-db-create.sh* (linux) или *task-planner-db-create.bat* (windows). Убедитесь, что у вас доступна команда *psql*.
 3. Далее необходимо собрать **.war**.  Для этого зайдите в корень проекта (директория где хранится pom.xml) и запустить в консоли  `mvn package`. После чего у вас появится директория с *target*, в конторой будет наш архив *taskplanner.war*.
