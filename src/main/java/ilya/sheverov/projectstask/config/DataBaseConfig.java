@@ -2,9 +2,7 @@ package ilya.sheverov.projectstask.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ilya.sheverov.projectstask.binder.MapToObjectBinder;
 import ilya.sheverov.projectstask.entity.converter.TaskTaskPresenterConverter;
-import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
 import ilya.sheverov.projectstask.entity.validator.TaskObjectValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,20 +20,13 @@ public class DataBaseConfig {
     @Scope("singleton")
     public DataSource hikariDataSource() {
         HikariConfig hikariConfig = new HikariConfig("/hikari-config.properties");
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-        return hikariDataSource;
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean
     @Scope("singleton")
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(hikariDataSource());
-    }
-
-    @Bean
-    @Scope("singleton")
-    public MapToObjectBinder mapToObjectBinder() {
-        return new MapToObjectBinder(TaskPresenter.class);
     }
 
     @Bean
