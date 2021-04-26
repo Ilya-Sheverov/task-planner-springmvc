@@ -50,7 +50,7 @@
 
 ##### Между перечисленными выше объектами необходимо реализовать следующие связи:
 
-* Проект может включать в себя от нуля до множества задач
+* У задачи может быть только один сотрудник.
 * Один сотрудник может быть назначен на множество задач
 
 ##### Приложение должно содержать следующие основные элементы:
@@ -118,6 +118,13 @@
 ### Technologies
 [to the table of contents](README.md#table-of-contents)
 
+В проекте используется:
+
+1. Java 8;
+2. Spring MVC, JSP, Jstl;
+3. PostgresSQL;
+4. JUnit 5;
+
 
 ### Illustrations
 [to the table of contents](README.md#table-of-contents)
@@ -126,7 +133,17 @@
 ## Setup
 [to the table of contents](README.md#table-of-contents)
 
-1. Скачайте репозиторий при помощи команды `git clone -b onePeronPerTask https://github.com/Ilya-Sheverov/task-planner-springmvc.git`.
-2. Для создания БД  используйте скрипт в директории [scripts](scripts/sql)  *task-planner-db-create.sh* (linux) или *task-planner-db-create.bat* (windows). Убедитесь, что у вас работает команда *psql*.
-3. Необходимо собрать **.war** архив. Для этого зайдите в корень проекта (директория где хранится pom.xml) и запустить в консоли  `mvn package`.
+Для того, что бы развернуть у себя проект у вас должно быть установлено:
+
+1. Java 8 или выше;
+2. PostgresSQL 9 или выше, работать интерактивный терминал *[psql](https://postgrespro.ru/docs/postgresql/9.6/app-psql)*.
+3. Tomcat 9.0;
+4. Maven 3 или выше;
+5. Git.
+
+1. Скачайте репозиторий при помощи команды `git clone -b onePeronPerTask https://github.com/Ilya-Sheverov/task-planner-springmvc.git`. После чего у вас появится папка *task-planner-springmvc*.
+2. После этого, Вам необходимо создать базу данных. Для этого используйте скрипт в директории [scripts](scripts/sql)  *task-planner-db-create.sh* (linux) или *task-planner-db-create.bat* (windows). Убедитесь, что у вас доступна команда *psql*.
+3. Далее необходимо собрать **.war**.  Для этого зайдите в корень проекта (директория где хранится pom.xml) и запустить в консоли  `mvn package`. После чего у вас появится директория с *target*, в конторой будет наш архив *taskplanner.war*.
 4. Добавьте полученный архив (taskplanner.war) в папку webapps вашего TomCat.
+5. Зайдите в браузер по http://localhost:8080/taskplanner/mainmenu.
+
