@@ -1,3 +1,7 @@
 TRUNCATE persons CASCADE;
 
+ALTER SEQUENCE persons_id_seq RESTART;
+
 TRUNCATE tasks CASCADE;
+
+ALTER SEQUENCE tasks_id_seq RESTART;
