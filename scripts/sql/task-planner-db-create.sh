@@ -1,30 +1,28 @@
 #!/bin/bash
-dbcreatefilename="pgsql-db-creation-script.sql"
-tbcreatefilename="pgsql-tables-creation-script.sql"
 
-if [ -f "$dbcreatefilename" ]; then
-  if [ -f "$tbcreatefilename" ]; then
-    read -p "Enter the user to connect to the server[postgres]:" pguser
-    read -p "Enter the host to connect to the server[127.0.0.1]:" pghost
-    read -p "Enter the port to connect to the server[5432]:" pgport
-    if [ "$pguser" = "" ]; then
-      pguser="postgres"
+psql_server_config_filename="psql-server.config"
+db_creation_script_filename="pgsql-db-creation-script.sql"
+tb_db_creation_script_filename="pgsql-tables-creation-script.sql"
+
+if [ -f "$db_creation_script_filename" ]; then
+  if [ -f "$tb_db_creation_script_filename" ]; then
+    if [ -f "$psql_server_config_filename" ]; then
+
+      while IFS='=' read -r key value; do
+        if [ -n "${key}" ]; then
+          eval "${key}=\${value}"
+        fi
+      done <"$psql_server_config_filename"
+
+      echo "Connection to server with port: $pg_port host: $pg_host user: $pg_user"
+      psql -U "$pg_user" -h "$pg_host" -p "$pg_port" -f "$db_creation_script_filename" -c '\c task_planner' -f "$tb_db_creation_script_filename" -e
+
+    else
+      echo "$psql_server_config_filename not found."
     fi
-
-    if [ "$pghost" = "" ]; then
-      pghost="127.0.0.1"
-    fi
-
-    if [ "$pgport" = "" ]; then
-      pgport="5432"
-    fi
-
-    echo "Connection to server with $pguser + $pghost + $pgport"
-
-    psql -U "$pguser" -h "$pghost" -p "$pgport" -f "$dbcreatefilename" -c '\c task_planner' -f "$tbcreatefilename" -e
   else
-    echo "File $tbcreatefilename not found!"
+    echo "File $tb_db_creation_script_filename not found!"
   fi
 else
-  echo "File $dbcreatefilename not found!"
+  echo "File $db_creation_script_filename not found!"
 fi
