@@ -20,8 +20,10 @@ public class PersonDao implements PersonDaoI {
         "SELECT *\n" +
             "FROM persons\n" +
             "WHERE id = ? AND version = ?;";
+
     private static final String FIND_ALL_PERSONS_SQL =
         "SELECT * FROM persons ORDER BY \"last_name\", \"first_name\", \"middle_name\",\"version\";";
+
     private static final String FIND_ALL_PERSONS_WITH_THE_NUMBER_OF_TASKS =
         "SELECT persons.id," +
             "       persons.last_name," +
@@ -33,12 +35,16 @@ public class PersonDao implements PersonDaoI {
             "         LEFT JOIN tasks" +
             "                   ON persons.id = tasks.person_id " +
             "GROUP BY persons.id;";
+
     private static final String GET_THE_NUMBER_OF_USERS_SQL = "SELECT count(*) FROM persons;";
+
     private static final String CREATE_PERSON_SQL =
         "INSERT INTO persons (last_name, first_name, middle_name) VALUES (?, ?, ?);";
+
     private static final String EDIT_PERSON_SQL =
         "UPDATE persons SET last_name  = ?, first_name = ?, middle_name = ?,version = current_timestamp\n" +
             "WHERE id = ? AND version = ?;";
+
     private static final String DELETE_PERSON_SQL =
         "DELETE\n" +
             "FROM persons\n" +
@@ -54,27 +60,19 @@ public class PersonDao implements PersonDaoI {
     }
 
     public int getTheNumberOfPersons() {
-        return jdbcTemplate.query(GET_THE_NUMBER_OF_USERS_SQL, rs -> {
+        Integer count = jdbcTemplate.query(GET_THE_NUMBER_OF_USERS_SQL, rs -> {
             if (rs.next()) {
                 return rs.getInt("count");
             }
             return 0;
         });
+        return count;
     }
 
     @Override
     public Person findPersonByIdAndVersion(Integer personId, Timestamp personVersion) {
         return jdbcTemplate.query(FIND_PERSON_BY_ID_AND_VERSION_SQL, new PersonResultSetExtractor(), personId,
             personVersion);
-    }
-
-    public List<Person> findAllPerson() {
-        return jdbcTemplate.query(FIND_ALL_PERSONS_SQL, new PersonMapper());
-    }
-
-    public Map<Person, Integer> findAllPersonsWithTheNumberOfTasks() {
-        return jdbcTemplate.query(FIND_ALL_PERSONS_WITH_THE_NUMBER_OF_TASKS,
-            new PersonsResultSetExtractor());
     }
 
     public Map<Person, Integer> findPartOfTheListOfPersons(String orderByColumnName, int offSet, int limit) {

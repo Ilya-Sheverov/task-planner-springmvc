@@ -10,10 +10,6 @@ public interface PersonDaoI {
 
     Person findPersonByIdAndVersion(Integer personId, Timestamp personVersion);
 
-    List<Person> findAllPerson();
-
-    Map<Person, Integer> findAllPersonsWithTheNumberOfTasks();
-
     Map<Person, Integer> findPartOfTheListOfPersons(String orderByColumnName, int offSet, int limit);
 
     int getTheNumberOfPersons();

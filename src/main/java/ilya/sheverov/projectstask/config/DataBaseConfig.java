@@ -2,8 +2,6 @@ package ilya.sheverov.projectstask.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ilya.sheverov.projectstask.entity.converter.TaskTaskPresenterConverter;
-import ilya.sheverov.projectstask.entity.validator.TaskObjectValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,15 +27,4 @@ public class DataBaseConfig {
         return new JdbcTemplate(hikariDataSource());
     }
 
-    @Bean
-    @Scope("prototype")
-    public TaskObjectValidator taskObjectValidator() {
-        return new TaskObjectValidator();
-    }
-
-    @Bean
-    @Scope("prototype")
-    public TaskTaskPresenterConverter taskTaskPresenterConverter() {
-        return new TaskTaskPresenterConverter(taskObjectValidator());
-    }
 }

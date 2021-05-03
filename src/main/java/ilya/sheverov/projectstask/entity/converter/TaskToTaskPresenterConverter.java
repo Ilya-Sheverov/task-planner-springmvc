@@ -1,4 +1,4 @@
-package ilya.sheverov.projectstask.entity.presenter.converter;
+package ilya.sheverov.projectstask.entity.converter;
 
 import ilya.sheverov.projectstask.entity.Task;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
@@ -13,15 +13,15 @@ import java.util.Map;
 
 @Component
 @Scope("prototype")
-public class TaskViewConverter {
+public class TaskToTaskPresenterConverter {
 
-    char dateTimeSeparator = ' ';
+    private char dateTimeSeparator = ' ';
 
-    public TaskViewConverter() {
+    public TaskToTaskPresenterConverter() {
 
     }
 
-    public TaskViewConverter(char dateTimeSeparator) {
+    public TaskToTaskPresenterConverter(char dateTimeSeparator) {
         this.dateTimeSeparator = dateTimeSeparator;
     }
 

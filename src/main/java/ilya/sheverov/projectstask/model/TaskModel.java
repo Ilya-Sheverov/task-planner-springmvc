@@ -3,7 +3,7 @@ package ilya.sheverov.projectstask.model;
 import ilya.sheverov.projectstask.config.TaskViewsConfigI;
 import ilya.sheverov.projectstask.entity.Task;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
-import ilya.sheverov.projectstask.entity.presenter.converter.TaskViewConverter;
+import ilya.sheverov.projectstask.entity.converter.TaskToTaskPresenterConverter;
 import ilya.sheverov.projectstask.exception.OptimisticLockException;
 import ilya.sheverov.projectstask.model.pagemanager.PageListConfiguration;
 import ilya.sheverov.projectstask.model.pagemanager.PageListService;
@@ -13,13 +13,14 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class TaskModel implements TaskModelFacade {
+
     final private TaskServiceI taskService;
     final private PageListService pageListService;
     final private ResourceBundle resourceBundle;
     final private TaskViewsConfigI taskViewsConfigI;
 
     private PageListConfiguration pageListConfiguration;
-    private TaskViewConverter converter;
+    private TaskToTaskPresenterConverter converter;
 
     private int maxNumberTasksPerPage;
     private int numberOfLinksPerPageToPages;
@@ -50,7 +51,7 @@ public class TaskModel implements TaskModelFacade {
     private Map<String, String> personIdsAndInitials;
 
     public TaskModel(TaskServiceI taskService, PageListService pageListService, ResourceBundle resourceBundle,
-                     TaskViewsConfigI taskViewsConfigI, TaskViewConverter converter) {
+                     TaskViewsConfigI taskViewsConfigI, TaskToTaskPresenterConverter converter) {
         this.taskService = taskService;
         this.pageListService = pageListService;
         this.resourceBundle = resourceBundle;
@@ -68,8 +69,7 @@ public class TaskModel implements TaskModelFacade {
             currentPageNumber = pageNumber;
         }
         if (nameOfTheColumnToBeSorted != null) {
-            boolean isValid = Arrays.stream(validColumnNames)
-                .anyMatch(s -> s.equals(nameOfTheColumnToBeSorted));
+            boolean isValid = Arrays.asList(validColumnNames).contains(nameOfTheColumnToBeSorted);
             if (isValid) {
                 this.nameOfTheColumnToBeSorted = nameOfTheColumnToBeSorted;
             }
@@ -160,7 +160,7 @@ public class TaskModel implements TaskModelFacade {
     }
 
 
-    void markTheTasksFieldAsIncorrect(final String fieldsName) {
+    private void markTheTasksFieldAsIncorrect(final String fieldsName) {
         switch (fieldsName) {
             case "id":
                 taskIdIsIncorrect = true;
@@ -193,7 +193,7 @@ public class TaskModel implements TaskModelFacade {
 
     private String injectTaskIdToString(String s, String taskId) {
         if (s.contains("${taskId}")) {
-            s = s.replaceAll("\\$\\{taskId\\}", taskId);
+            s = s.replaceAll("\\$\\{taskId}", taskId);
         }
         return s;
     }
@@ -206,10 +206,8 @@ public class TaskModel implements TaskModelFacade {
                     sb.append(task.getId()).append(", ");
                 }
                 String ids = sb.toString();
-                //todo убрать костыль
                 ids = ids.substring(0, ids.length() - 2);
-
-                s = s.replaceAll("\\$\\{taskIds\\}", ids);
+                s = s.replaceAll("\\$\\{taskIds}", ids);
             }
         }
         return s;

@@ -185,9 +185,7 @@ public class PersonModel implements PersonModelFacade {
                     sb.append(person.getId()).append(", ");
                 }
                 String ids = sb.toString();
-                //todo убрать костыль
                 ids = ids.substring(0, ids.length() - 2);
-
                 s = s.replaceAll("\\$\\{listPersonIds\\}", ids);
             }
         }

@@ -22,7 +22,6 @@ public class PersonToPersonPresenterConverter {
     private String defaultVersionValue = "";
 
     public PersonPresenter convert(Person person) {
-        //todo проверка на null
         PersonPresenter personPresenter = new PersonPresenter();
         Integer personId = person.getId();
         if (personId == null) {

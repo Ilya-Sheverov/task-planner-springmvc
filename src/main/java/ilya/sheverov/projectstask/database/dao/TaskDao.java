@@ -16,6 +16,7 @@ import java.util.Map;
 public class TaskDao implements TaskDaoI {
 
     private static final String GET_THE_NUMBER_OF_TASKS_SQL = "SELECT count(*) FROM tasks;";
+
     private static final String FIND_TASk_BY_ID_AND_VERSION_SQL =
         "SELECT *\n" +
             "FROM tasks\n" +
@@ -23,11 +24,13 @@ public class TaskDao implements TaskDaoI {
     private static final String FIND_PERSONS_ID_AND_INITIAL =
         "SELECT persons.\"id\", concat(\"last_name\", ' ', \"first_name\", ' ', \"middle_name\") AS initial\n" +
             "FROM persons ORDER BY initial;";
+
     private static final String CREATE_TASK_SQL =
         "INSERT INTO tasks (\"name\", \"volume_of_work_in_hours\",\n" +
             "                   \"start_date\", \"due_date\",\n" +
             "                   \"status\", \"person_id\")\n" +
             "VALUES (?, ?, ?, ?, ?, ?);";
+
     private static final String EDIT_TASK_SQL =
         "UPDATE tasks\n" +
             "SET \"name\" = ?,\n" +
@@ -38,11 +41,13 @@ public class TaskDao implements TaskDaoI {
             "    \"person_id\" = ?,\n" +
             "    \"version\" = current_timestamp\n" +
             "WHERE id = ? AND version = ?;";
+
     private static final String DELETE_TASK_SQL =
         "DELETE\n" +
             "FROM tasks\n" +
             "WHERE id = ?\n" +
             "  AND version = ?;";
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -64,12 +69,13 @@ public class TaskDao implements TaskDaoI {
 
     @Override
     public int getTheNumberOfTasks() {
-        return jdbcTemplate.query(GET_THE_NUMBER_OF_TASKS_SQL, rs -> {
+        Integer count = jdbcTemplate.query(GET_THE_NUMBER_OF_TASKS_SQL, rs -> {
             if (rs.next()) {
                 return rs.getInt("count");
             }
             return 0;
         });
+        return count;
     }
 
     @Override

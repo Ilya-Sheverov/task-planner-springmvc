@@ -1,7 +1,7 @@
 package ilya.sheverov.projectstask.factory;
 
 import ilya.sheverov.projectstask.config.TaskViewsConfigI;
-import ilya.sheverov.projectstask.entity.presenter.converter.TaskViewConverter;
+import ilya.sheverov.projectstask.entity.converter.TaskToTaskPresenterConverter;
 import ilya.sheverov.projectstask.model.TaskModel;
 import ilya.sheverov.projectstask.model.pagemanager.PageListService;
 import ilya.sheverov.projectstask.service.TaskServiceI;
@@ -14,19 +14,28 @@ import java.util.ResourceBundle;
 
 @Component
 public class TaskModelFactory {
-    @Autowired
+
+    final
     AnnotationConfigWebApplicationContext context;
 
-    @Autowired
+    final
     TaskServiceI taskService;
-    @Autowired
-    TaskViewConverter taskViewConverter;
-    @Autowired
-    private PageListService pageListService;
+
+    final
+    TaskToTaskPresenterConverter taskToTaskPresenterConverter;
+
+    private final PageListService pageListService;
+
+    public TaskModelFactory(AnnotationConfigWebApplicationContext context, TaskServiceI taskService, TaskToTaskPresenterConverter taskToTaskPresenterConverter, PageListService pageListService) {
+        this.context = context;
+        this.taskService = taskService;
+        this.taskToTaskPresenterConverter = taskToTaskPresenterConverter;
+        this.pageListService = pageListService;
+    }
 
     public TaskModel getNewTaskModel(Class<? extends TaskViewsConfigI> aClass, Locale locale) {
         TaskViewsConfigI taskViewsConfig = context.getBean(aClass);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("locale/task-constants", locale);
-        return new TaskModel(taskService, pageListService, resourceBundle, taskViewsConfig, taskViewConverter);
+        return new TaskModel(taskService, pageListService, resourceBundle, taskViewsConfig, taskToTaskPresenterConverter);
     }
 }
