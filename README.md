@@ -91,5 +91,5 @@
 
 [to the table of contents](README.md#table-of-contents)
 
-
+Скрины приложения можно посмотреть [тут](images).
 
