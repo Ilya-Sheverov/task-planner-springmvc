@@ -1,6 +1,7 @@
 package ilya.sheverov.projectstask.config;
 
 import ilya.sheverov.projectstask.entity.converter.DataTimeConverter;
+import ilya.sheverov.projectstask.entity.converter.StringArrayToEnum;
 import ilya.sheverov.projectstask.filter.ParamLocalResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

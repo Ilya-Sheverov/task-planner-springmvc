@@ -1,5 +1,6 @@
 package ilya.sheverov.projectstask.database.mapper;
 
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import ilya.sheverov.projectstask.entity.Task;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -17,7 +18,7 @@ public class TaskMapper implements RowMapper<Task> {
         task.setVolumeOfWorkInHours((Integer) rs.getObject("volume_of_work_in_hours"));
         task.setStartDate((Timestamp) rs.getObject("start_date"));
         task.setDueDate((Timestamp) rs.getObject("due_date"));
-        task.setStatus((String) rs.getObject("status"));
+        task.setStatus(Enum.valueOf(StatusOfATask.class, (String) rs.getObject("status")));
         task.setPersonId((Integer) rs.getObject("person_id"));
         task.setVersion((Timestamp) rs.getObject("version"));
         return task;

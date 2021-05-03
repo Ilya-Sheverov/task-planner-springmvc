@@ -1,5 +1,6 @@
 package ilya.sheverov.projectstask.model;
 
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import ilya.sheverov.projectstask.entity.presenter.PersonPresenter;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
 
@@ -86,6 +87,8 @@ public interface MainMenuModelFacade extends HeaderFacade {
     Set<TaskPresenter> getListOfTasks();
 
     String getInitialsOfTheExecutor(TaskPresenter taskPresenter);
+
+    Map<Enum<StatusOfATask>, String> getStatusValues();
 
     String getTextValueEditATask();
 

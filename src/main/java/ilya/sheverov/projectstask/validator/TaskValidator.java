@@ -55,10 +55,10 @@ public class TaskValidator implements Validator {
                 errors.rejectValue("dueDate", "dueDate.notAfter.startDate");
             }
         }
-        Boolean statusIsIncorrect = Arrays.stream(STATUS_VALUES).noneMatch(s -> s.equals(task.getStatus()));
+        /*Boolean statusIsIncorrect = Arrays.stream(STATUS_VALUES).noneMatch(s -> s.equals(task.getStatus()));
         if (statusIsIncorrect) {
             errors.rejectValue("status", "status.notFound");
-        }
+        }*/
         if (task.getPersonId() != null) {
             if (task.getPersonId() < 0) {
                 errors.rejectValue("personId", "personId.negative");

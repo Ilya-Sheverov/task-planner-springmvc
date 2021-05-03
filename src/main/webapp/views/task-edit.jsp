@@ -17,6 +17,7 @@
 <c:set var="personsIdWithInitials" value="${model.personIdsAndInitials}"/>
 <c:set var="personsId" value="${model.personIds}" scope="page"/>
 <c:set var="task" value="${model.taskPresenter}"/>
+<c:set var="statusValues" value="${model.statusValues}" scope="page"/>
 
 <div id="create-task-form">
     <a href='<c:url value="/task/create?lang=ru?id=${task.id}&version=${task.version}"/>'>RU</a>
@@ -54,10 +55,10 @@
             <p>${model.statusIsIncorrectMsg}</p>
         </c:if>
         <select id="status" name="status" title="${model.titleOfTheStatus}">
-            <option selected>${task.status}</option>
-            <c:forEach var="status" items="${model.statusValues}">
+            <option value="${task.status}" selected>${statusValues.get(task.status)}</option>
+            <c:forEach var="status" items="${model.statusValues.keySet()}">
                 <c:if test="${task.status != status}">
-                    <option>${status}</option>
+                    <option value="${status}">${statusValues.get(status)}</option>
                 </c:if>
             </c:forEach>
         </select>

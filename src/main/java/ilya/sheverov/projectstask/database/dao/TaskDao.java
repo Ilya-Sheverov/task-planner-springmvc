@@ -4,13 +4,12 @@ import ilya.sheverov.projectstask.database.mapper.PersonsIdAndInitialsResultSetE
 import ilya.sheverov.projectstask.database.mapper.TaskResultSetExtractor;
 import ilya.sheverov.projectstask.database.mapper.TaskWithInitialsAssigneeResultSetExtractor;
 import ilya.sheverov.projectstask.entity.Task;
+import java.sql.Timestamp;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Timestamp;
-import java.util.Map;
 
 @Repository("taskDao")
 public class TaskDao implements TaskDaoI {
@@ -22,7 +21,8 @@ public class TaskDao implements TaskDaoI {
             "FROM tasks\n" +
             "WHERE id = ? AND version = ?;";
     private static final String FIND_PERSONS_ID_AND_INITIAL =
-        "SELECT persons.\"id\", concat(\"last_name\", ' ', \"first_name\", ' ', \"middle_name\") AS initial\n" +
+        "SELECT persons.\"id\", concat(\"last_name\", ' ', \"first_name\", ' ', \"middle_name\") AS initial\n"
+            +
             "FROM persons ORDER BY initial;";
 
     private static final String CREATE_TASK_SQL =
@@ -57,11 +57,14 @@ public class TaskDao implements TaskDaoI {
 
     @Override
     public Task findTaskByIdAndVersion(Integer personId, Timestamp personVersion) {
-        return jdbcTemplate.query(FIND_TASk_BY_ID_AND_VERSION_SQL, new TaskResultSetExtractor(), personId, personVersion);
+        return jdbcTemplate
+            .query(FIND_TASk_BY_ID_AND_VERSION_SQL, new TaskResultSetExtractor(), personId,
+                personVersion);
     }
 
     @Override
-    public Map<Task, String> findSortedPartOfTheListOfTask(String orderByColumnName, int offSet, int limit) {
+    public Map<Task, String> findSortedPartOfTheListOfTask(String orderByColumnName, int offSet,
+        int limit) {
         return jdbcTemplate.query(
             generateAnSqlQueryToSearchForTaskWithAVariableColumnForSorting(orderByColumnName),
             new TaskWithInitialsAssigneeResultSetExtractor(), offSet, limit);
@@ -87,17 +90,20 @@ public class TaskDao implements TaskDaoI {
     @Override
     public int createTask(Task task) {
         int updatedRecords;
-        updatedRecords = jdbcTemplate.update(CREATE_TASK_SQL, task.getName(), task.getVolumeOfWorkInHours(),
-            task.getStartDate(), task.getDueDate(), task.getStatus(), task.getPersonId());
+        updatedRecords = jdbcTemplate
+            .update(CREATE_TASK_SQL, task.getName(), task.getVolumeOfWorkInHours(),
+                task.getStartDate(), task.getDueDate(), task.getStatus().name(),
+                task.getPersonId());
         return updatedRecords;
     }
 
     @Override
     public int editTask(Task editedTask) {
         int updatedRecords;
-        updatedRecords = jdbcTemplate.update(EDIT_TASK_SQL, editedTask.getName(), editedTask.getVolumeOfWorkInHours(),
-            editedTask.getStartDate(), editedTask.getDueDate(), editedTask.getStatus(), editedTask.getPersonId(),
-            editedTask.getId(), editedTask.getVersion());
+        updatedRecords = jdbcTemplate
+            .update(EDIT_TASK_SQL, editedTask.getName(), editedTask.getVolumeOfWorkInHours(),
+                editedTask.getStartDate(), editedTask.getDueDate(), editedTask.getStatus().name(),
+                editedTask.getPersonId(), editedTask.getId(), editedTask.getVersion());
         return updatedRecords;
     }
 
@@ -108,7 +114,8 @@ public class TaskDao implements TaskDaoI {
         return deletedRecord;
     }
 
-    private String generateAnSqlQueryToSearchForTaskWithAVariableColumnForSorting(final String columnName) {
+    private String generateAnSqlQueryToSearchForTaskWithAVariableColumnForSorting(
+        final String columnName) {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("SELECT t.\"id\",\n" +
             "       t.\"name\",\n" +
@@ -118,7 +125,8 @@ public class TaskDao implements TaskDaoI {
             "       t.\"status\",\n" +
             "       t.\"person_id\",\n" +
             "       t.\"version\",\n" +
-            "       concat(p.\"last_name\", ' ', p.\"first_name\", ' ', p.\"middle_name\") AS initials\n" +
+            "       concat(p.\"last_name\", ' ', p.\"first_name\", ' ', p.\"middle_name\") AS initials\n"
+            +
             "FROM tasks AS t\n" +
             "         LEFT JOIN persons AS p ON t.\"person_id\" = p.\"id\" ORDER BY ")
             .append(columnName);

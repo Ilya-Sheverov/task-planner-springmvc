@@ -1,23 +1,28 @@
 package ilya.sheverov.projectstask.model;
 
 import ilya.sheverov.projectstask.config.TaskViewsConfigI;
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import ilya.sheverov.projectstask.entity.Task;
-import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
 import ilya.sheverov.projectstask.entity.converter.TaskToTaskPresenterConverter;
+import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
 import ilya.sheverov.projectstask.exception.OptimisticLockException;
 import ilya.sheverov.projectstask.model.pagemanager.PageListConfiguration;
 import ilya.sheverov.projectstask.model.pagemanager.PageListService;
 import ilya.sheverov.projectstask.service.TaskServiceI;
-
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 public class TaskModel implements TaskModelFacade {
 
-    final private TaskServiceI taskService;
-    final private PageListService pageListService;
-    final private ResourceBundle resourceBundle;
-    final private TaskViewsConfigI taskViewsConfigI;
+    private final TaskServiceI taskService;
+    private final PageListService pageListService;
+    private final ResourceBundle resourceBundle;
+    private final TaskViewsConfigI taskViewsConfigI;
+    private final Map<Enum<StatusOfATask>, String> statusValues;
 
     private PageListConfiguration pageListConfiguration;
     private TaskToTaskPresenterConverter converter;
@@ -50,13 +55,16 @@ public class TaskModel implements TaskModelFacade {
 
     private Map<String, String> personIdsAndInitials;
 
-    public TaskModel(TaskServiceI taskService, PageListService pageListService, ResourceBundle resourceBundle,
-                     TaskViewsConfigI taskViewsConfigI, TaskToTaskPresenterConverter converter) {
+    public TaskModel(TaskServiceI taskService, PageListService pageListService,
+        ResourceBundle resourceBundle,
+        TaskViewsConfigI taskViewsConfigI, TaskToTaskPresenterConverter converter,
+        Map<Enum<StatusOfATask>, String> statusValues) {
         this.taskService = taskService;
         this.pageListService = pageListService;
         this.resourceBundle = resourceBundle;
         this.taskViewsConfigI = taskViewsConfigI;
         this.converter = converter;
+        this.statusValues = statusValues;
         maxNumberTasksPerPage = taskViewsConfigI.getMaxNumberTasksPerPage();
         numberOfLinksPerPageToPages = taskViewsConfigI.getNumberOfLinksPerPageToPages();
         currentPageNumber = taskViewsConfigI.getDefaultPageNumber();
@@ -64,7 +72,8 @@ public class TaskModel implements TaskModelFacade {
         nameOfTheColumnToBeSorted = validColumnNames[0];
     }
 
-    public void prepareAListOfTasks(int pageNumber, String nameOfTheColumnToBeSorted, boolean multipleTaskSelectionMode) {
+    public void prepareAListOfTasks(int pageNumber, String nameOfTheColumnToBeSorted,
+        boolean multipleTaskSelectionMode) {
         if (pageNumber > 1) {
             currentPageNumber = pageNumber;
         }
@@ -76,10 +85,13 @@ public class TaskModel implements TaskModelFacade {
         }
         this.multipleTaskSelectionMode = multipleTaskSelectionMode;
         numberOfAllTasks = taskService.getTheNumberOfTasks();
-        pageListConfiguration = pageListService.getPageListConfiguration(numberOfAllTasks, maxNumberTasksPerPage,
-            numberOfLinksPerPageToPages, currentPageNumber);
+        pageListConfiguration = pageListService
+            .getPageListConfiguration(numberOfAllTasks, maxNumberTasksPerPage,
+                numberOfLinksPerPageToPages, currentPageNumber);
         int firstTaskNumber = (currentPageNumber - 1) * maxNumberTasksPerPage;
-        Map<Task, String> tasks = taskService.findSortedPartOfTheListOfTask(this.nameOfTheColumnToBeSorted, firstTaskNumber, maxNumberTasksPerPage);
+        Map<Task, String> tasks = taskService
+            .findSortedPartOfTheListOfTask(this.nameOfTheColumnToBeSorted, firstTaskNumber,
+                maxNumberTasksPerPage);
         listOfTasksWithInitials = converter.convertTaskToTaskView(tasks);
     }
 
@@ -120,7 +132,8 @@ public class TaskModel implements TaskModelFacade {
         } catch (OptimisticLockException e) {
             hasOptimisticLockException = true;
             hasMessage = true;
-            message = injectTaskIdToString(resourceBundle.getString("message.optimisticLocking.editing"),
+            message = injectTaskIdToString(
+                resourceBundle.getString("message.optimisticLocking.editing"),
                 String.valueOf(editedTask.getId()));
         }
     }
@@ -134,7 +147,8 @@ public class TaskModel implements TaskModelFacade {
         } catch (OptimisticLockException e) {
             hasOptimisticLockException = true;
             hasMessage = true;
-            message = injectTaskIdToString(resourceBundle.getString("message.optimisticLocking.deleting"),
+            message = injectTaskIdToString(
+                resourceBundle.getString("message.optimisticLocking.deleting"),
                 String.valueOf(taskId));
         }
     }
@@ -143,15 +157,18 @@ public class TaskModel implements TaskModelFacade {
         try {
             taskService.deleteTasks(tasks);
             hasMessage = true;
-            message = injectListTaskIdsToString(resourceBundle.getString("message.theTaskGroupWasDeleted"), tasks);
+            message = injectListTaskIdsToString(
+                resourceBundle.getString("message.theTaskGroupWasDeleted"), tasks);
         } catch (OptimisticLockException e) {
             hasOptimisticLockException = true;
             hasMessage = true;
-            message = injectListTaskIdsToString(resourceBundle.getString("message.optimisticLocking.groupDeletion"), tasks);
+            message = injectListTaskIdsToString(
+                resourceBundle.getString("message.optimisticLocking.groupDeletion"), tasks);
         }
     }
 
-    public void setTaskPresenterWithInvalidFieldsNames(TaskPresenter taskPresenter, Set<String> invalidFieldsNames) {
+    public void setTaskPresenterWithInvalidFieldsNames(TaskPresenter taskPresenter,
+        Set<String> invalidFieldsNames) {
         personIdsAndInitials = taskService.getPersonsIdAndInitials();
         this.taskPresenter = taskPresenter;
         for (String invalidFieldsName : invalidFieldsNames) {
@@ -530,7 +547,8 @@ public class TaskModel implements TaskModelFacade {
 
     @Override
     public String getLabelOfTheId() {
-        return injectTaskIdToString(resourceBundle.getString("form.input.label.taskId"), taskPresenter.getId());
+        return injectTaskIdToString(resourceBundle.getString("form.input.label.taskId"),
+            taskPresenter.getId());
     }
 
     @Override
@@ -549,8 +567,8 @@ public class TaskModel implements TaskModelFacade {
     }
 
     @Override
-    public String[] getStatusValues() {
-        return TaskPresenter.statusValues;
+    public Map<Enum<StatusOfATask>, String> getStatusValues() {
+        return statusValues;
     }
 
     @Override
@@ -565,7 +583,8 @@ public class TaskModel implements TaskModelFacade {
 
     @Override
     public String getDeleteATaskQuestion(String taskId) {
-        return injectTaskIdToString(resourceBundle.getString("message.wantToDeleteQuestion"), taskId);
+        return injectTaskIdToString(resourceBundle.getString("message.wantToDeleteQuestion"),
+            taskId);
     }
 
     @Override

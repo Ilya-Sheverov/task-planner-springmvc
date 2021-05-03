@@ -16,6 +16,7 @@
        scope="page"/>
 <c:set var="multiplePersonSelectionMode" value="${model.multiplePersonSelectionMode}" scope="page"/>
 <c:set var="multipleTaskSelectionMode" value="${model.multipleTaskSelectionMode}" scope="page"/>
+<c:set var="statusValues" value="${model.statusValues}" scope="page"/>
 
 <html>
 <head>
@@ -270,7 +271,7 @@
                     <td>${task.volumeOfWorkInHours}</td>
                     <td>${task.startDate}</td>
                     <td>${task.dueDate}</td>
-                    <td>${task.status}</td>
+                    <td>${statusValues.get(task.status)}</td>
                     <td>${model.getInitialsOfTheExecutor(task)}</td>
                     <td>
                         <a href='<c:url value="/task/edit?lang=${lang}&id=${task.id}&version=${task.version}"/>'>${model.textValueEditATask}</a>

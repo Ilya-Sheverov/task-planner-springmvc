@@ -1,17 +1,19 @@
 package ilya.sheverov.projectstask.entity.presenter;
 
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import java.util.Objects;
 
 public class TaskPresenter {
 
-    public static final String[] statusValues = {"Не начата", "В процессе", "Завершена", "Отложена"};
+    public static final String[] statusValues = {"Не начата", "В процессе", "Завершена",
+        "Отложена"};
 
     private String id = "";
     private String name = "";
     private String volumeOfWorkInHours = "";
     private String startDate = "";
     private String dueDate = "";
-    private String status = "Не начата";
+    private StatusOfATask status = StatusOfATask.NOT_STARTED;
     private String personId = "";
     private String version = "";
 
@@ -55,11 +57,11 @@ public class TaskPresenter {
         this.dueDate = dueDate;
     }
 
-    public String getStatus() {
+    public StatusOfATask getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusOfATask status) {
         this.status = status;
     }
 
@@ -85,8 +87,12 @@ public class TaskPresenter {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TaskPresenter)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TaskPresenter)) {
+            return false;
+        }
         TaskPresenter taskView = (TaskPresenter) o;
         return id.equals(taskView.id) &&
             name.equals(taskView.name) &&
@@ -100,7 +106,8 @@ public class TaskPresenter {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, volumeOfWorkInHours, startDate, dueDate, status, personId, version);
+        return Objects
+            .hash(id, name, volumeOfWorkInHours, startDate, dueDate, status, personId, version);
     }
 
     @Override

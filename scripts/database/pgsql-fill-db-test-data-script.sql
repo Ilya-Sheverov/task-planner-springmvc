@@ -305,64 +305,64 @@ INSERT INTO persons (last_name, first_name, middle_name) values ('Соболев
 ---------------------------Add tasks------------------------------------------------------------------------
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',1) ;
+VALUES ('test',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',1) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test2',1,'2020-11-14 13:13','2020-11-14 13:13','Не начата',2) ;
+VALUES ('test2',1,'2020-11-14 13:13','2020-11-14 13:13','NOT_STARTED',2) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test3',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',3) ;
+VALUES ('test3',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',3) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test4',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',4) ;
+VALUES ('test4',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',4) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test5',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',10) ;
+VALUES ('test5',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',10) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test6',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',1) ;
+VALUES ('test6',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',1) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test7',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата',9) ;
+VALUES ('test7',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED',9) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test8',1,'1997-12-14 13:13','1998-12-14 13:13','Не начата',13) ;
+VALUES ('test8',1,'1997-12-14 13:13','1998-12-14 13:13','NOT_STARTED',13) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test9',1,'2020-12-14 13:13','2020-12-14 13:13','В процессе',22) ;
+VALUES ('test9',1,'2020-12-14 13:13','2020-12-14 13:13','STARTED',22) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test10',1,'2020-12-14 13:13','2020-12-14 13:13','В процессе',22) ;
+VALUES ('test10',1,'2020-12-14 13:13','2020-12-14 13:13','STARTED',22) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status, person_id)
-VALUES ('test11',1,'2020-12-14 13:13','2020-12-14 13:13','В процессе',33) ;
+VALUES ('test11',1,'2020-12-14 13:13','2020-12-14 13:13','STARTED',33) ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test12',1,'2015-12-14 13:13','2016-12-14 13:13','Завершена') ;
+VALUES ('test12',1,'2015-12-14 13:13','2016-12-14 13:13','COMPLETED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test13',1,'2020-12-14 13:13','2020-12-14 13:13','Завершена') ;
+VALUES ('test13',1,'2020-12-14 13:13','2020-12-14 13:13','COMPLETED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test14',1,'2020-12-14 13:13','2020-12-14 13:13','Завершена') ;
+VALUES ('test14',1,'2020-12-14 13:13','2020-12-14 13:13','COMPLETED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test15',1,'2020-12-14 13:13','2020-12-14 13:13','Не начата') ;
+VALUES ('test15',1,'2020-12-14 13:13','2020-12-14 13:13','NOT_STARTED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test16',1,'2020-12-14 13:13','2020-12-14 13:13','Завершена') ;
+VALUES ('test16',1,'2020-12-14 13:13','2020-12-14 13:13','COMPLETED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test17',1,'2020-12-14 13:13','2020-12-14 13:13','Отложена') ;
+VALUES ('test17',1,'2020-12-14 13:13','2020-12-14 13:13','PAUSED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, status)
-VALUES ('test18',1,'2020-12-14 13:13','Не начата') ;
+VALUES ('test18',1,'2020-12-14 13:13','NOT_STARTED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, due_date, status)
-VALUES ('test19',1,'2007-12-14 13:13','2008-12-14 13:13','Отложена') ;
+VALUES ('test19',1,'2007-12-14 13:13','2008-12-14 13:13','PAUSED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, start_date, status)
-VALUES ('test20',1,'2020-12-14 13:13','Отложена') ;
+VALUES ('test20',1,'2020-12-14 13:13','PAUSED') ;
 
 INSERT INTO tasks (name, volume_of_work_in_hours, status)
-VALUES ('test21',1,'Не начата') ;
+VALUES ('test21',1,'NOT_STARTED') ;

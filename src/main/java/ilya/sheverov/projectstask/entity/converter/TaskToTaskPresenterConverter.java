@@ -2,14 +2,13 @@ package ilya.sheverov.projectstask.entity.converter;
 
 import ilya.sheverov.projectstask.entity.Task;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Component
 @Scope("prototype")
@@ -53,8 +52,7 @@ public class TaskToTaskPresenterConverter {
             String taskViewDueDate = timestampToString(dueDate, 16);
             taskView.setDueDate(taskViewDueDate);
         }
-        String status = task.getStatus();
-        taskView.setStatus(status);
+        taskView.setStatus(task.getStatus());
 
         Integer personId = task.getPersonId();
         if (personId != null) {

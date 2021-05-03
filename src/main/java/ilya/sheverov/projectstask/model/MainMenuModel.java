@@ -1,8 +1,8 @@
 package ilya.sheverov.projectstask.model;
 
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import ilya.sheverov.projectstask.entity.presenter.PersonPresenter;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -16,13 +16,16 @@ public class MainMenuModel implements MainMenuModelFacade {
         this.taskModel = taskModel;
     }
 
-    public void prepareTheMainMenu(int pageNumberOfThePersonList, String nameOfTheColumnToBeSortedPersonList,
-                                   boolean multiplePersonSelectionMode, int pageNumberOfTheTaskList,
-                                   String nameOfTheColumnToBeSortedTaskList, boolean multipleTaskSelectionMode
+    public void prepareTheMainMenu(int pageNumberOfThePersonList,
+        String nameOfTheColumnToBeSortedPersonList,
+        boolean multiplePersonSelectionMode, int pageNumberOfTheTaskList,
+        String nameOfTheColumnToBeSortedTaskList, boolean multipleTaskSelectionMode
     ) {
-        personModel.prepareAListOfPersons(pageNumberOfThePersonList, nameOfTheColumnToBeSortedPersonList,
-            multiplePersonSelectionMode);
-        taskModel.prepareAListOfTasks(pageNumberOfTheTaskList, nameOfTheColumnToBeSortedTaskList, multipleTaskSelectionMode);
+        personModel
+            .prepareAListOfPersons(pageNumberOfThePersonList, nameOfTheColumnToBeSortedPersonList,
+                multiplePersonSelectionMode);
+        taskModel.prepareAListOfTasks(pageNumberOfTheTaskList, nameOfTheColumnToBeSortedTaskList,
+            multipleTaskSelectionMode);
     }
 
     @Override
@@ -238,6 +241,11 @@ public class MainMenuModel implements MainMenuModelFacade {
     @Override
     public String getInitialsOfTheExecutor(TaskPresenter taskPresenter) {
         return taskModel.getInitialsOfTheExecutor(taskPresenter);
+    }
+
+    @Override
+    public Map<Enum<StatusOfATask>, String> getStatusValues() {
+        return taskModel.getStatusValues();
     }
 
     @Override

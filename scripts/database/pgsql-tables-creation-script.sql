@@ -27,7 +27,7 @@ CREATE TABLE tasks
             (("due_date" >= "start_date") AND ("start_date" IS NOT NULL) AND ("due_date" IS NOT NULL))
             OR (("start_date" IS NULL) AND ("due_date" IS NULL))
             OR ((start_date IS NOT NULL) AND ("due_date" IS NULL))),
-    "status"                  CHARACTER VARYING(10)  NOT NULL,
+    "status"                  CHARACTER VARYING(14)  NOT NULL,
     "person_id"               INTEGER,
     "version"                 TIMESTAMP DEFAULT current_timestamp NOT NULL,
     PRIMARY KEY ("id"),

@@ -1,5 +1,6 @@
 package ilya.sheverov.projectstask.model;
 
+import ilya.sheverov.projectstask.entity.StatusOfATask;
 import ilya.sheverov.projectstask.entity.presenter.TaskPresenter;
 
 import java.util.Map;
@@ -140,7 +141,7 @@ public interface TaskModelFacade extends HeaderFacade {
 
     String getSubmitEdit();
 
-    String[] getStatusValues();
+    Map<Enum<StatusOfATask>, String> getStatusValues();
 
     boolean getVersionIsIncorrect();
 

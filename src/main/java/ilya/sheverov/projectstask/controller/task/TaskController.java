@@ -7,27 +7,33 @@ import ilya.sheverov.projectstask.factory.TaskModelFactory;
 import ilya.sheverov.projectstask.model.TaskModel;
 import ilya.sheverov.projectstask.validator.TaskValidator;
 import ilya.sheverov.projectstask.wrapper.IncorrectFieldsBindingResultWrapper;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/task")
@@ -42,9 +48,9 @@ public class TaskController {
 
     @GetMapping(value = "/all")
     public ModelAndView getTaskList(@RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "sortTasksList", defaultValue = "id") String order,
-                                    @RequestParam(name = "multipleTaskSelectionMode", defaultValue = "false") boolean multipleTaskSelectionMode,
-                                    Model model, Locale locale) {
+        @RequestParam(name = "sortTasksList", defaultValue = "id") String order,
+        @RequestParam(name = "multipleTaskSelectionMode", defaultValue = "false") boolean multipleTaskSelectionMode,
+        Model model, Locale locale) {
         TaskModel taskModel = (TaskModel) model.getAttribute("model");
         if (taskModel == null) {
             taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
@@ -69,14 +75,18 @@ public class TaskController {
     }
 
     @PostMapping(value = "/create")
-    public ModelAndView createTask(@Valid Task task, BindingResult br, WebRequest webRequest, RedirectAttributes redirectAttributes, Locale locale) {
+    public ModelAndView createTask(@Valid Task task, BindingResult br, WebRequest webRequest,
+        RedirectAttributes redirectAttributes, Locale locale) {
         TaskModel taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
         if (br.hasErrors()) {
             IncorrectFieldsBindingResultWrapper incorrectFieldsBindingResultWrapper =
                 new IncorrectFieldsBindingResultWrapper(br);
-            Set<String> namesOfTheIncorrectFields = incorrectFieldsBindingResultWrapper.getNamesOfTheIncorrectFields();
-            TaskPresenter taskPresenter = createATaskPresenterUsingTheWebRequestParameters(webRequest);
-            taskModel.setTaskPresenterWithInvalidFieldsNames(taskPresenter, namesOfTheIncorrectFields);
+            Set<String> namesOfTheIncorrectFields = incorrectFieldsBindingResultWrapper
+                .getNamesOfTheIncorrectFields();
+            TaskPresenter taskPresenter = createATaskPresenterUsingTheWebRequestParameters(
+                webRequest);
+            taskModel
+                .setTaskPresenterWithInvalidFieldsNames(taskPresenter, namesOfTheIncorrectFields);
             redirectAttributes.addFlashAttribute("model", taskModel);
             return new ModelAndView(new RedirectView("/task/create", true));
         }
@@ -91,8 +101,8 @@ public class TaskController {
 
     @GetMapping(value = "/edit")
     public ModelAndView editTask(@RequestParam(name = "id") Integer id,
-                                 @RequestParam(name = "version") Timestamp version,
-                                 Model model, Locale locale) {
+        @RequestParam(name = "version") Timestamp version,
+        Model model, Locale locale) {
         TaskModel taskModel = (TaskModel) model.getAttribute("model");
         if (taskModel == null) {
             taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
@@ -102,14 +112,18 @@ public class TaskController {
     }
 
     @PostMapping(value = "/edit")
-    public ModelAndView editTask(@Valid Task task, BindingResult br, WebRequest webRequest, RedirectAttributes redirectAttributes, Locale locale) {
+    public ModelAndView editTask(@Valid Task task, BindingResult br, WebRequest webRequest,
+        RedirectAttributes redirectAttributes, Locale locale) {
         TaskModel taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
         if (br.hasErrors()) {
             IncorrectFieldsBindingResultWrapper incorrectFieldsBindingResultWrapper =
                 new IncorrectFieldsBindingResultWrapper(br);
-            Set<String> namesOfTheIncorrectFields = incorrectFieldsBindingResultWrapper.getNamesOfTheIncorrectFields();
-            TaskPresenter taskPresenter = createATaskPresenterUsingTheWebRequestParameters(webRequest);
-            taskModel.setTaskPresenterWithInvalidFieldsNames(taskPresenter, namesOfTheIncorrectFields);
+            Set<String> namesOfTheIncorrectFields = incorrectFieldsBindingResultWrapper
+                .getNamesOfTheIncorrectFields();
+            TaskPresenter taskPresenter = createATaskPresenterUsingTheWebRequestParameters(
+                webRequest);
+            taskModel
+                .setTaskPresenterWithInvalidFieldsNames(taskPresenter, namesOfTheIncorrectFields);
             redirectAttributes
                 .addFlashAttribute("model", taskModel)
                 .addAttribute("id", taskPresenter.getId())
@@ -128,8 +142,9 @@ public class TaskController {
     }
 
     @GetMapping(value = "/delete")
-    public ModelAndView deleteTask(@RequestParam(name = "id") Integer id, @RequestParam Timestamp version,
-                                   RedirectAttributes redirectAttributes, Locale locale) {
+    public ModelAndView deleteTask(@RequestParam(name = "id") Integer id,
+        @RequestParam Timestamp version,
+        RedirectAttributes redirectAttributes, Locale locale) {
         TaskModel taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
         taskModel.deleteTask(id, version);
         if (taskModel.getHasOptimisticLockException()) {
@@ -143,10 +158,10 @@ public class TaskController {
 
     @PostMapping("/delete/selected")
     public ModelAndView deleteTasks(WebRequest webRequest,
-                                    RedirectAttributes redirectAttributes,
-                                    @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "sortTasksList", defaultValue = "id") String order,
-                                    Locale locale) {
+        RedirectAttributes redirectAttributes,
+        @RequestParam(name = "page", defaultValue = "1") int page,
+        @RequestParam(name = "sortTasksList", defaultValue = "id") String order,
+        Locale locale) {
         TaskModel taskModel = taskModelFactory.getNewTaskModel(TaskViewsConfig.class, locale);
         String[] selectedTasks = webRequest.getParameterMap().get("selectedTask");
         if (selectedTasks == null || selectedTasks.length == 0) {

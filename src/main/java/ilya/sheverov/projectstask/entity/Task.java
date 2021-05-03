@@ -11,7 +11,7 @@ public class Task {
     private Integer volumeOfWorkInHours;
     private Timestamp startDate;
     private Timestamp dueDate;
-    private String status;
+    private StatusOfATask status;
     private Integer personId;
     private Timestamp version;
 
@@ -58,11 +58,11 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public String getStatus() {
+    public StatusOfATask getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusOfATask status) {
         this.status = status;
     }
 
@@ -84,8 +84,12 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Task)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
         Task task = (Task) o;
         return id.equals(task.id) &&
             version.equals(task.version);
@@ -98,13 +102,13 @@ public class Task {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Task{\n");
+        final StringBuilder sb = new StringBuilder("Task{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", volumeOfWorkInHours=").append(volumeOfWorkInHours);
         sb.append(", startDate=").append(startDate);
         sb.append(", dueDate=").append(dueDate);
-        sb.append(", status='").append(status).append('\'');
+        sb.append(", status=").append(status);
         sb.append(", personId=").append(personId);
         sb.append(", version=").append(version);
         sb.append('}');
