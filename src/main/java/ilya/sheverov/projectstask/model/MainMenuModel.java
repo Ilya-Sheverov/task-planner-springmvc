@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class MainMenuModel implements MainMenuModelFacade {
 
-    PersonModel personModel;
-    TaskModel taskModel;
+    private PersonModel personModel;
+    private TaskModel taskModel;
 
     public MainMenuModel(PersonModel personModel, TaskModel taskModel) {
         this.personModel = personModel;
